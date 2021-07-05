@@ -1,0 +1,5 @@
+D:\ксенькино\Codes\RLAmodel\FractalDimension\bin\Debug\FractalDimension.dll
+D:\ксенькино\Codes\RLAmodel\FractalDimension\bin\Debug\FractalDimension.pdb
+D:\ксенькино\Codes\RLAmodel\FractalDimension\obj\Debug\FractalDimension.csproj.CoreCompileInputs.cache
+D:\ксенькино\Codes\RLAmodel\FractalDimension\obj\Debug\FractalDimension.dll
+D:\ксенькино\Codes\RLAmodel\FractalDimension\obj\Debug\FractalDimension.pdb

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RLA", "RLA\RLA.csproj", "{EC0FBE87-C53F-48E4-827E-B05E8F9D86C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FractalDimension", "..\FractalDimension\FractalDimension.csproj", "{FE907728-0753-4533-AA33-569912B406E6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC0FBE87-C53F-48E4-827E-B05E8F9D86C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC0FBE87-C53F-48E4-827E-B05E8F9D86C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC0FBE87-C53F-48E4-827E-B05E8F9D86C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC0FBE87-C53F-48E4-827E-B05E8F9D86C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE907728-0753-4533-AA33-569912B406E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE907728-0753-4533-AA33-569912B406E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE907728-0753-4533-AA33-569912B406E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE907728-0753-4533-AA33-569912B406E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {059AB8A8-9F6F-45B4-B627-184CC4AEC872}
+	EndGlobalSection
+EndGlobal

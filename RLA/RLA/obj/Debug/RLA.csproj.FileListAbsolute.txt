@@ -1,0 +1,13 @@
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\bin\Debug\RLA.exe.config
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\bin\Debug\RLA.exe
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\bin\Debug\RLA.pdb
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\obj\Debug\RLA.csprojAssemblyReference.cache
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\obj\Debug\RLA.Properties.Resources.resources
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\obj\Debug\RLA.csproj.GenerateResource.cache
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\obj\Debug\RLA.csproj.CoreCompileInputs.cache
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\obj\Debug\RLA.exe
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\obj\Debug\RLA.pdb
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\obj\Debug\RLA.FormMain.resources
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\bin\Debug\FractalDimension.pdb
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\obj\Debug\RLA.csproj.CopyComplete
+D:\ксенькино\Codes\RLAmodel\RLA\RLA\bin\Debug\FractalDimension.dll
