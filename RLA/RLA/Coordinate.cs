@@ -11,22 +11,23 @@ namespace RLA
         
         public bool Taken
         {
-            get { if (particle != null) return true; else return false; }// Показывает, есть ли в данной клетке частица или нет
+            get { if (particle.Count > 0 || Is_Cluster == true) return true; else return false; }// Показывает, есть ли в данной клетке частица или нет
         }
-        public Particle particle = null;
+        public List<Particle> particle = new List<Particle>();
+        public bool Is_Cluster = false;
         public Coordinate ()
         {
             
         }
-        public System.Drawing.Color Cell_Color
-        {
-            get 
-            {
-                if (Taken == true) 
-                    if (particle.agg != null) return System.Drawing.Color.Blue;
-                else return System.Drawing.Color.Black;
-                else return System.Drawing.Color.White;
-            }
-        }
+        //public System.Drawing.Color Cell_Color
+        //{
+        //    get 
+        //    {
+        //        if (Taken == true) 
+        //         if (Is_Cluster == true) return System.Drawing.Color.Red;
+        //            else return System.Drawing.Color.Black;
+        //        else return System.Drawing.Color.White;
+        //    }
+        //}
     }
 }

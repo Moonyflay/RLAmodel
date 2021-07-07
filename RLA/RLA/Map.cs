@@ -9,17 +9,15 @@ namespace RLA
 {
     public class Map
     {
-        public static byte c_width = 5;
-        public static byte c_height = 5;
-        public static int max_in_row = 100;
-        public static int max_in_col = 100;
-        static double particle_percent = 10;
+        static int max_in_row = 500;
+        static double particle_percent = 1;
 
-        public static double radius;
-        public static double timestep;
-        public static double visc;
-        public static double temp;
-        public static double diff_coeff;
+        static double radius;
+        static double timestep;
+        static double visc;
+        static double temp;
+        static double diff_coeff;
+        static double displacement;
         public static double[] probability = { 1, 1, 1, 1 };
         public static double Diff_coeff
         {
@@ -32,34 +30,57 @@ namespace RLA
                 return 1.3806 * Pow(10, -23) * temp / (6 * PI * visc * radius);
             }
         }
+        public static int Displacement
+        // Одна частица занимет одну клетку, следовательно, диаметр частицы есть размер клетки
+        // Чтобы узнать, на сколько клеток может сдвинуться частица, необходимо поделить среднеквадратический сдвиг на радиус
+        {
+            get
+            {
+                if (radius <= 0) throw new Exception("Необходимо задать начальный радиус частицы");
+                if (displacement > 0) return (int)Truncate(displacement / (2 * radius));
+                return (int)Truncate(Sqrt(2 * Diff_coeff * timestep) / (2 * radius));
+            }
+        }
 
         static int Particle_num 
         {
-            get { return (int)Math.Truncate(max_in_row*max_in_col * particle_percent / 100); }
+            get { return (int)Truncate(max_in_row*max_in_row * particle_percent / 100); }
         }
         static Coordinate [,] _map;
         
-        public Map(double _radius, double _timestep, double [] _probability)
+         Map(double _radius, double _timestep, double [] _probability, int _max_in_row, double _particle_percent)
         {
+            diff_coeff = 0;
+            displacement = 0;
+            visc = 0;
+            temp = 0;
+
             radius = _radius;
             timestep = _timestep;
+           
+            max_in_row = _max_in_row;
+            particle_percent = _particle_percent;
             for (int i = 0; i < _probability.Length; i++)
                 probability[i] = _probability[i];
-            _map = new Coordinate[max_in_row, max_in_col];
+            _map = new Coordinate[max_in_row, max_in_row];
             for (int i = 0; i < max_in_row; i++)
-                for (int j = 0; j < max_in_col; j++)
+                for (int j = 0; j < max_in_row; j++)
                     _map[i, j] = new Coordinate();
 
             
         }
-        public Map (double _radius, double _timestep, double[] _probability,double _visc, double _temp) : this(_radius,_timestep, _probability)
+        public Map (double _radius, double _timestep, double[] _probability, int _max_in_row, double _particle_percent, double _visc, double _temp) : this(_radius,_timestep, _probability,_max_in_row, _particle_percent)
         {
             visc = _visc;
             temp = _temp;
         }
-        public Map(double _radius, double _timestep, double[] _probability, double _diff_coeff ) : this(_radius, _timestep, _probability)
+        public Map(double _radius, double _timestep, double[] _probability, int _max_in_row, double _particle_percent, double _diff_coeff ) : this(_radius, _timestep, _probability, _max_in_row, _particle_percent)
         {
             diff_coeff = _diff_coeff;  
+        }
+        public Map(double _displacement, double _radius, double _timestep, double[] _probability, int _max_in_row, double _particle_percent) : this(_radius, _timestep, _probability,  _max_in_row, _particle_percent)
+        {
+            displacement = _displacement;
         }
         public Coordinate this[int i, int j]
         {
@@ -67,27 +88,28 @@ namespace RLA
             set { _map[i, j] = value; }
         }
 
-        public static void Start_Spawn(Random sluchai)
+        public static void Start_Spawn()
         {
-           
-            int x;
-            int y;
-
             for (int i = 0; i < Particle_num; i++)
             {
-                x = sluchai.Next(0, max_in_row);
-                y = sluchai.Next(0, max_in_col);
-                while (Neighbours(x,y) == true )
-                {
-                    x = sluchai.Next(0, max_in_row); // here
-                    y = sluchai.Next(0, max_in_col);
-                }
-                Particle part = new Particle(x, y);
-                _map[x, y].particle = part;
+                Single_Spawn();  
             }
         
         }
-        
+        public static void Single_Spawn() 
+        {
+            int x;
+            int y;
+            x = FormMain.sluchai.Next(0, max_in_row);
+            y = FormMain.sluchai.Next(0, max_in_row);
+            while (Neighbours(x, y) == true || ( x > Cluster.Min_X && x < Cluster.Max_X && y > Cluster.Min_Y && y < Cluster.Max_Y) )
+            {
+                x = FormMain.sluchai.Next(0, max_in_row); 
+                y = FormMain.sluchai.Next(0, max_in_row);
+            }
+            _map[x, y].particle.Add(new Particle(x, y));
+
+        }
         static bool Neighbours(int x, int y)
         {
             for (int i = -1; i < 2; i++)
@@ -101,7 +123,7 @@ namespace RLA
         }
         public static bool Coordinate_Check(int x, int y, int dx, int dy)
         {
-            if (x + dx < 0 || y + dy < 0 || x + dx >= max_in_row || y + dy >= max_in_col)
+            if (x + dx < 0 || y + dy < 0 || x + dx >= max_in_row || y + dy >= max_in_row)
                 return false;
             else return true;
         }
