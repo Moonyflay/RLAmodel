@@ -15,38 +15,13 @@ namespace FractalDimension
         // a = F^(-1) * b 
         // ln(N) = D * ln(1/length) + const, где - число квадратов, содержащих фрактал, а length - длина стороны квадрата (разрешение)
         // Dimension (D) = a[1] - тангенс наклона прямой
-        // 10 100 100 = 1,29081652
-        // 9 100 100 =  1,26962306
-        // 9 100 200 =  1,23880202
-        // 10 100 200 = 1,20148566
-        // 20 50 100 =  1.68239269
-        // 5 200 100 =  1.87607837
-        // 10 200 200 = 1.50709
-        // 20 100 100 = 1.3961984
-        // 10 200 50  = 1.5235720
-        static int step_num = 10;
-        static int step_size = 100;
-        static int start_sq = 1000;
+        
         static Color frac_color = Color.Black;  // Цвет фрактала
         static Bitmap bmp;
-        static double [] true_squares; // ln(N)
-        static double[] resolution; // ln(1/length)
+        static double [] true_squares = new double[14]; // ln(N)
+        readonly static byte[] resolution = new byte[14]; // length
+        
 
-        public static int Step_Number
-        {
-            get { return step_num; }
-            set { if (value > 0) step_num = value; }
-        }
-        public static int Step_Size
-        {
-            get { return step_size; }
-            set { if (value > 0) step_size = value; }
-        }
-        public static int Start_Number_of_Squares
-        {
-            get { return start_sq; }
-            set { if (value > 0) start_sq = value; }
-        }
         public static Bitmap Fractal_Image
         {
             get { return bmp; }
@@ -68,39 +43,50 @@ namespace FractalDimension
             set { if (value != null) frac_color = value; }
         }
 
-
+        static FractalDim() 
+        {
+            for (byte i = 0; i < resolution.Length; i++)
+            {
+                resolution[i] = (byte)((i + 2) * 2); // От 4 до 30 пикселей с шагом 2
+            }
+        }
 
         public static double Dimenshion() 
         {
             
             if (bmp == null) { MessageBox.Show("Изображение фрактала отсутствует"); return 0.0; }
             Picture_Analisis();
-            double[,] F = new double [2,2];
-            F[0, 0] = 1 + step_num; 
-            double[] b = new double[2];
+
+            byte step_num = (byte) resolution.Length;
             for (int i = 0; i < resolution.Length; i++)
+                if (true_squares[i] <= 0) step_num--; // Поправка для небольших изображений. 
+            //Если изображение разбивается меньше, чем на 25 квадратов, точка пропускается
+
+            double[,] F = new double [2,2];
+            F[0, 0] = step_num; 
+            double[] b = new double[2];
+            for (int i = 0; i < step_num; i++)
             {
-                F[1, 0] += resolution[i];
-                F[0, 1] += resolution[i];
-                F[1, 1] += resolution[i]*resolution[i];
+                F[1, 0] += -Log(resolution[i]);
+                F[0, 1] += -Log(resolution[i]);
+                F[1, 1] += Log(resolution[i])*Log(resolution[i]);
                 b[0] += true_squares[i];
-                b[1] += true_squares[i] * resolution[i];
+                b[1] += true_squares[i] *(-Log(resolution[i]));
             }
             return Linear_regression(F, b); 
         }
         static void Picture_Analisis()
         {
             if (bmp == null) return;
-            true_squares = new double[step_num + 1];
-            resolution = new double[step_num + 1];
-            int sq_size_stand;
-            int sq_size_hor;
-            int sq_size_ver;
-            int sq_num = start_sq;
-            int N;
+            if (bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb || bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppRgb) ARGB_to_RGB();
+           // MessageBox.Show($"{bmp.PixelFormat}");
+           
+            byte sq_size_hor;
+            byte sq_size_ver;
+            float N;
             int bytes;
-            int ost_hor;
-            int ost_ver;
+            sbyte ost_hor;
+            sbyte ost_ver;
             Rectangle rect;
             Bitmap _bmp;
 
@@ -112,29 +98,32 @@ namespace FractalDimension
                 default: { add_k = 4; break; }
             }
 
-            for (int i = 0; i <= step_num; i++)
+            for (int i = 0; i < resolution.Length; i++)
             {
                 N = 0;
-                sq_num += step_size * i;
-                sq_size_stand = (int)Truncate(Sqrt(bmp.Width * bmp.Height / sq_num));
-                ost_hor = -1; // остаток пикселей, которые не захватит сетка заданного размера
-                ost_ver = -1;
-                if (bmp.Width % sq_size_stand > 0) ost_hor += bmp.Width % sq_size_stand;
-                if (bmp.Height % sq_size_stand > 0) ost_ver += bmp.Height % sq_size_stand;
+                // Поправка для небольших изображений. 
+                //Если изображение разбивается меньше, чем на 25 квадратов, точка пропускается
+                if (bmp.Width * bmp.Height / (resolution[i]*resolution[i]) < 25) { true_squares[i] = 0; continue;}
+                
+                ost_hor = 0; // остаток пикселей, которые не захватит сетка заданного размера
+                ost_ver = 0;
+                if (bmp.Width % resolution[i] > 0) ost_hor += (sbyte)( bmp.Width % resolution[i]);
+                if (bmp.Height % resolution[i] > 0) ost_ver +=(sbyte) (bmp.Height % resolution[i]);
 
-                for (int v = 0; v < Truncate((double)bmp.Height / sq_size_stand) ; v++)
+                for (int v = 0; v < bmp.Height / resolution[i]; v++)
                 {
-                    if (v + 1 >= Truncate((double)bmp.Height / sq_size_stand)) sq_size_hor = sq_size_stand + ost_hor;
-                    else sq_size_hor = sq_size_stand;
-                    for (int h = 0; h < Truncate((double)bmp.Width / sq_size_stand); h++)
+                    // последние ряд и колонка имеет увеличенные клетки, чтобы захватить остаток пикселей
+                    if (v + 1 >= bmp.Height / resolution[i]) sq_size_hor = (byte)(resolution[i] + ost_hor);
+                    else sq_size_hor = resolution[i];
+                    for (int h = 0; h < bmp.Width / resolution[i]; h++)
                     {
                         // последние ряд и колонка имеет увеличенные клетки, чтобы захватить остаток пикселей
-                         if (h +1 >= Truncate((double)bmp.Width / sq_size_stand)) sq_size_ver = sq_size_stand + ost_ver;
-                        else sq_size_ver = sq_size_stand;
+                        if (h + 1 >= bmp.Width / resolution[i]) sq_size_ver = (byte)(resolution[i] + ost_ver);
+                        else sq_size_ver = resolution[i];
 
-                        rect = new Rectangle(h * sq_size_stand, v * sq_size_stand, sq_size_hor, sq_size_ver);
-                        _bmp = bmp.Clone(rect,bmp.PixelFormat);
-                        System.Drawing.Imaging.BitmapData bmpData = _bmp.LockBits(new Rectangle(0,0,_bmp.Width, _bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, _bmp.PixelFormat);
+                        rect = new Rectangle(h * resolution[i], v * resolution[i], sq_size_hor, sq_size_ver);
+                        _bmp = bmp.Clone(rect, bmp.PixelFormat);
+                        System.Drawing.Imaging.BitmapData bmpData = _bmp.LockBits(new Rectangle(0, 0, _bmp.Width, _bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, _bmp.PixelFormat);
                         IntPtr ptr = bmpData.Scan0;
                         bytes = Abs(bmpData.Stride) * _bmp.Height;
                         byte[] rgbValues = new byte[bytes];
@@ -146,39 +135,39 @@ namespace FractalDimension
                             // проверка совпадения цвета пикселя и цвета фрактала
                             // разница не равна 0, т.к. цвет фрактала может немного варьироваться (например на JPG изображениях)
                             if
-                           (Abs((int)frac_color.B - (int)rgbValues[k - 2]) < 20 &&
-                            Abs((int)frac_color.G - (int)rgbValues[k - 1]) < 20 &&
-                            Abs((int)frac_color.R - (int)rgbValues[k]) < 20)
+                            (Abs((int)frac_color.B - (int)rgbValues[k - 2]) < 20 &&
+                             Abs((int)frac_color.G - (int)rgbValues[k - 1]) < 20 &&
+                             Abs((int)frac_color.R - (int)rgbValues[k]) < 20)
                             {
-
-                                //if (i == step_num)
-                                //{
-                                //    for (int pp = 2; pp < rgbValues.Length; pp += add_k)
-                                //    {
-                                //        rgbValues[pp - 2] = 255;
-                                //        rgbValues[pp - 1] = 0;
-                                //        rgbValues[pp] = 0;
-                                //        //rgbValues[k + 1] = 100;
-
-                                //        System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
-                                //    }
-                                //}
-
-                                N += sq_size_hor*sq_size_ver/(sq_size_stand*sq_size_stand) ;
+                                N += (float) sq_size_hor * sq_size_ver / (resolution[i] * resolution[i]);
+                                //N++;
                                 break;
                             }
                         }
                         _bmp.UnlockBits(bmpData);
                         _bmp.Dispose();
-                  
+
                     }
                 }
 
                 true_squares[i] = Log(N);
-                resolution[i] = - Log(Sqrt(bmp.Width * bmp.Height / sq_num));
+                
 
             }
 
+        }
+        static void ARGB_to_RGB() // Предполагается, что альфа-канал не используется 
+        {
+            if (bmp == null) return;
+            if (bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb && bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppRgb)
+                throw new Exception("У изображения, преобразуемого методом ARGB_to_RGB(), формат пикселя должн быть 32bpp");
+            Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
+            using (Bitmap bmp2 = bmp.Clone(rect,System.Drawing.Imaging.PixelFormat.Format24bppRgb))
+            {
+                bmp.Dispose();
+                bmp = bmp2.Clone(rect, bmp2.PixelFormat);
+            }
+            
         }
         static double Linear_regression(double[,] F, double[] b)
         {

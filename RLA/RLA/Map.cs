@@ -48,7 +48,7 @@ namespace RLA
         }
         static Coordinate [,] _map;
         
-         Map(double _radius, double _timestep, double [] _probability, int _max_in_row, double _particle_percent)
+         Map(double _radius, double [] _probability, int _max_in_row, double _particle_percent)
         {
             diff_coeff = 0;
             displacement = 0;
@@ -56,7 +56,7 @@ namespace RLA
             temp = 0;
 
             radius = _radius;
-            timestep = _timestep;
+           
            
             max_in_row = _max_in_row;
             particle_percent = _particle_percent;
@@ -69,16 +69,18 @@ namespace RLA
 
             
         }
-        public Map (double _radius, double _timestep, double[] _probability, int _max_in_row, double _particle_percent, double _visc, double _temp) : this(_radius,_timestep, _probability,_max_in_row, _particle_percent)
+        public Map (double _radius, double _timestep, double[] _probability, int _max_in_row, double _particle_percent, double _visc, double _temp) : this(_radius, _probability,_max_in_row, _particle_percent)
         {
             visc = _visc;
             temp = _temp;
+            timestep = _timestep;
         }
-        public Map(double _radius, double _timestep, double[] _probability, int _max_in_row, double _particle_percent, double _diff_coeff ) : this(_radius, _timestep, _probability, _max_in_row, _particle_percent)
+        public Map(double _radius, double _timestep, double[] _probability, int _max_in_row, double _particle_percent, double _diff_coeff ) : this(_radius,  _probability, _max_in_row, _particle_percent)
         {
-            diff_coeff = _diff_coeff;  
+            diff_coeff = _diff_coeff;
+            timestep = _timestep;
         }
-        public Map(double _displacement, double _radius, double _timestep, double[] _probability, int _max_in_row, double _particle_percent) : this(_radius, _timestep, _probability,  _max_in_row, _particle_percent)
+        public Map(double _displacement, double _radius,  double[] _probability, int _max_in_row, double _particle_percent) : this(_radius,  _probability,  _max_in_row, _particle_percent)
         {
             displacement = _displacement;
         }
