@@ -233,9 +233,11 @@ namespace RLA
         }
         void Probability_Set(int row_num)
         {
+            byte popr = 0;
+            if (row_num != 1) popr++;
             for (int i = 0; i < 4; i++)
             {
-                NumericUpDown num = tableLayoutPanelProb.Controls[row_num * 5 + i + 1] as NumericUpDown;
+                NumericUpDown num = tableLayoutPanelProb.Controls[row_num * 6 + i - popr] as NumericUpDown;
                 probability[i] = (double)num.Value;
             }
         }

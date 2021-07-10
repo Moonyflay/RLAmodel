@@ -34,6 +34,8 @@
             this.groupBoxAgr = new System.Windows.Forms.GroupBox();
             this.splitterInAgr = new System.Windows.Forms.Splitter();
             this.panelAgBot = new System.Windows.Forms.Panel();
+            this.labelVacNumber = new System.Windows.Forms.Label();
+            this.labelPartNumber = new System.Windows.Forms.Label();
             this.numericUpDownFinalSize = new System.Windows.Forms.NumericUpDown();
             this.labelFinalSize = new System.Windows.Forms.Label();
             this.checkBoxCrop = new System.Windows.Forms.CheckBox();
@@ -69,6 +71,8 @@
             this.labelRadius = new System.Windows.Forms.Label();
             this.numericUpDownDelta = new System.Windows.Forms.NumericUpDown();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.labelDir = new System.Windows.Forms.Label();
+            this.buttonDirPick = new System.Windows.Forms.Button();
             this.panelMaskChoice = new System.Windows.Forms.Panel();
             this.radioButtonIndex = new System.Windows.Forms.RadioButton();
             this.radioButtonProb = new System.Windows.Forms.RadioButton();
@@ -109,10 +113,6 @@
             this.сохранитьИзображениеФракталаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.загрузитьИзображениеФракталаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.labelPartNumber = new System.Windows.Forms.Label();
-            this.labelVacNumber = new System.Windows.Forms.Label();
-            this.buttonDirPick = new System.Windows.Forms.Button();
-            this.labelDir = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBoxAgr.SuspendLayout();
@@ -154,10 +154,10 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.tabControl1.Location = new System.Drawing.Point(0, 30);
+            this.tabControl1.Location = new System.Drawing.Point(0, 28);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(544, 969);
+            this.tabControl1.Size = new System.Drawing.Size(544, 971);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -167,7 +167,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(536, 940);
+            this.tabPage1.Size = new System.Drawing.Size(536, 942);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Параметры расчета агрегации";
             // 
@@ -179,7 +179,7 @@
             this.groupBoxAgr.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxAgr.Location = new System.Drawing.Point(3, 3);
             this.groupBoxAgr.Name = "groupBoxAgr";
-            this.groupBoxAgr.Size = new System.Drawing.Size(530, 934);
+            this.groupBoxAgr.Size = new System.Drawing.Size(530, 936);
             this.groupBoxAgr.TabIndex = 0;
             this.groupBoxAgr.TabStop = false;
             this.groupBoxAgr.Text = "Параметры расчета агрегации";
@@ -214,8 +214,26 @@
             this.panelAgBot.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAgBot.Location = new System.Drawing.Point(3, 388);
             this.panelAgBot.Name = "panelAgBot";
-            this.panelAgBot.Size = new System.Drawing.Size(524, 543);
+            this.panelAgBot.Size = new System.Drawing.Size(524, 545);
             this.panelAgBot.TabIndex = 1;
+            // 
+            // labelVacNumber
+            // 
+            this.labelVacNumber.AutoSize = true;
+            this.labelVacNumber.Location = new System.Drawing.Point(10, 318);
+            this.labelVacNumber.Name = "labelVacNumber";
+            this.labelVacNumber.Size = new System.Drawing.Size(135, 17);
+            this.labelVacNumber.TabIndex = 18;
+            this.labelVacNumber.Text = "Итого клеток: 2500";
+            // 
+            // labelPartNumber
+            // 
+            this.labelPartNumber.AutoSize = true;
+            this.labelPartNumber.Location = new System.Drawing.Point(10, 354);
+            this.labelPartNumber.Name = "labelPartNumber";
+            this.labelPartNumber.Size = new System.Drawing.Size(176, 17);
+            this.labelPartNumber.TabIndex = 17;
+            this.labelPartNumber.Text = "Итого частиц на поле: 25";
             // 
             // numericUpDownFinalSize
             // 
@@ -363,6 +381,11 @@
             // 
             this.numericUpDownPercent.DecimalPlaces = 3;
             this.numericUpDownPercent.Location = new System.Drawing.Point(10, 130);
+            this.numericUpDownPercent.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.numericUpDownPercent.Minimum = new decimal(new int[] {
             1,
             0,
@@ -699,6 +722,27 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Вероятность слипания";
             // 
+            // labelDir
+            // 
+            this.labelDir.AutoSize = true;
+            this.labelDir.Enabled = false;
+            this.labelDir.Location = new System.Drawing.Point(11, 68);
+            this.labelDir.Name = "labelDir";
+            this.labelDir.Size = new System.Drawing.Size(221, 17);
+            this.labelDir.TabIndex = 6;
+            this.labelDir.Text = "Результаты будут сохранены в: ";
+            // 
+            // buttonDirPick
+            // 
+            this.buttonDirPick.Enabled = false;
+            this.buttonDirPick.Location = new System.Drawing.Point(257, 19);
+            this.buttonDirPick.Name = "buttonDirPick";
+            this.buttonDirPick.Size = new System.Drawing.Size(243, 32);
+            this.buttonDirPick.TabIndex = 5;
+            this.buttonDirPick.Text = "Выбрать папку ";
+            this.buttonDirPick.UseVisualStyleBackColor = true;
+            this.buttonDirPick.Click += new System.EventHandler(this.Pick_Directory);
+            // 
             // panelMaskChoice
             // 
             this.panelMaskChoice.Controls.Add(this.radioButtonIndex);
@@ -776,7 +820,7 @@
             this.tableLayoutPanelProb.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanelProb.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanelProb.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanelProb.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
+            this.tableLayoutPanelProb.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
             this.tableLayoutPanelProb.Controls.Add(this.labelP3, 4, 0);
             this.tableLayoutPanelProb.Controls.Add(this.labelP2, 3, 0);
             this.tableLayoutPanelProb.Controls.Add(this.labelP1, 2, 0);
@@ -792,7 +836,7 @@
             this.tableLayoutPanelProb.RowCount = 2;
             this.tableLayoutPanelProb.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProb.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanelProb.Size = new System.Drawing.Size(531, 63);
+            this.tableLayoutPanelProb.Size = new System.Drawing.Size(532, 63);
             this.tableLayoutPanelProb.TabIndex = 0;
             // 
             // labelP3
@@ -988,9 +1032,9 @@
             this.panelPicBox.AutoScroll = true;
             this.panelPicBox.Controls.Add(this.pictureBoxMain);
             this.panelPicBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelPicBox.Location = new System.Drawing.Point(544, 30);
+            this.panelPicBox.Location = new System.Drawing.Point(544, 28);
             this.panelPicBox.Name = "panelPicBox";
-            this.panelPicBox.Size = new System.Drawing.Size(1124, 779);
+            this.panelPicBox.Size = new System.Drawing.Size(1124, 781);
             this.panelPicBox.TabIndex = 2;
             // 
             // pictureBoxMain
@@ -1128,7 +1172,6 @@
             this.panelBlack.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelBlack.Controls.Add(this.panel3);
             this.panelBlack.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.panelBlack.Enabled = false;
             this.panelBlack.Location = new System.Drawing.Point(23, 139);
             this.panelBlack.Name = "panelBlack";
             this.panelBlack.Size = new System.Drawing.Size(35, 35);
@@ -1197,7 +1240,7 @@
             this.файлToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1668, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1668, 28);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1207,7 +1250,7 @@
             this.сохранитьИзображениеФракталаToolStripMenuItem,
             this.загрузитьИзображениеФракталаToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-            this.файлToolStripMenuItem.Size = new System.Drawing.Size(59, 26);
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(59, 24);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
             // сохранитьИзображениеФракталаToolStripMenuItem
@@ -1223,45 +1266,6 @@
             this.загрузитьИзображениеФракталаToolStripMenuItem.Size = new System.Drawing.Size(334, 26);
             this.загрузитьИзображениеФракталаToolStripMenuItem.Text = "Загрузить изображение фрактала";
             this.загрузитьИзображениеФракталаToolStripMenuItem.Click += new System.EventHandler(this.загрузитьИзображениеФракталаToolStripMenuItem_Click);
-            // 
-            // labelPartNumber
-            // 
-            this.labelPartNumber.AutoSize = true;
-            this.labelPartNumber.Location = new System.Drawing.Point(10, 354);
-            this.labelPartNumber.Name = "labelPartNumber";
-            this.labelPartNumber.Size = new System.Drawing.Size(176, 17);
-            this.labelPartNumber.TabIndex = 17;
-            this.labelPartNumber.Text = "Итого частиц на поле: 25";
-            // 
-            // labelVacNumber
-            // 
-            this.labelVacNumber.AutoSize = true;
-            this.labelVacNumber.Location = new System.Drawing.Point(10, 318);
-            this.labelVacNumber.Name = "labelVacNumber";
-            this.labelVacNumber.Size = new System.Drawing.Size(135, 17);
-            this.labelVacNumber.TabIndex = 18;
-            this.labelVacNumber.Text = "Итого клеток: 2500";
-            // 
-            // buttonDirPick
-            // 
-            this.buttonDirPick.Enabled = false;
-            this.buttonDirPick.Location = new System.Drawing.Point(257, 19);
-            this.buttonDirPick.Name = "buttonDirPick";
-            this.buttonDirPick.Size = new System.Drawing.Size(243, 32);
-            this.buttonDirPick.TabIndex = 5;
-            this.buttonDirPick.Text = "Выбрать папку ";
-            this.buttonDirPick.UseVisualStyleBackColor = true;
-            this.buttonDirPick.Click += new System.EventHandler(this.Pick_Directory);
-            // 
-            // labelDir
-            // 
-            this.labelDir.AutoSize = true;
-            this.labelDir.Enabled = false;
-            this.labelDir.Location = new System.Drawing.Point(11, 68);
-            this.labelDir.Name = "labelDir";
-            this.labelDir.Size = new System.Drawing.Size(221, 17);
-            this.labelDir.TabIndex = 6;
-            this.labelDir.Text = "Результаты будут сохранены в: ";
             // 
             // FormMain
             // 
